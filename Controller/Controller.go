@@ -91,3 +91,40 @@ func ObtenerCadenas() string {
 	}
 	return primero
 }
+
+func MostrarGramatica() string {
+	gramatica, err := Manejoarchivo.DecodificarContenido()
+	if err != nil {
+		fmt.Println("Error al decodificar", err)
+	}
+	var resultado string
+
+    for noTerminal, producciones := range gramatica.Expresiones {
+        resultado += fmt.Sprintf("%v --> ", noTerminal)
+
+        for i, produccion := range producciones {
+            if len(produccion) == 0 {
+                resultado += " "
+            } else {
+                for j, simbolo := range produccion {
+                    resultado += simbolo
+
+                    if j < len(produccion)-1 {
+                        resultado += " "
+                    }
+                }
+            }
+
+            if i < len(producciones)-1 {
+                if len(producciones[i+1]) > 0 {
+                    resultado += " | "
+                }
+            }
+        }
+
+        resultado += "\n"
+    }
+
+    return resultado
+}
+
